@@ -9,12 +9,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function Button({ children, variant = "primary", size = "md", className = "", ...props }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2B9DDA] disabled:opacity-50"
+    "inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2B9DDA] disabled:opacity-50"
 
   const variantStyles = {
-    primary: "bg-[#2B9DDA] hover:bg-[#2589c2] text-white",
+    primary: "bg-[#2B9DDA] hover:bg-[#2589c2] text-white rounded-full",
     outline: "border border-[#3A4358] bg-transparent hover:bg-[#3A4358] text-white rounded-full",
-    ghost: "bg-transparent hover:bg-[#3A4358] text-white",
+    ghost: "bg-transparent hover:bg-[#3A4358] text-white rounded-md",
     link: "bg-transparent underline-offset-4 hover:underline text-[#2B9DDA] hover:text-[#2589c2]",
   }
 
