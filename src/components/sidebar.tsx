@@ -23,6 +23,13 @@ export default function Sidebar() {
       icon: "/img/file.png",
       isImage: true,
     },
+
+    {
+      name: "NFT Minting",
+      href: "/nft-minting",
+      icon: "/img/mint.png",
+      isImage: true,
+    }
   ];
 
   return (
@@ -56,7 +63,7 @@ export default function Sidebar() {
             );
           })}
           <Button
-            variant="outline"
+            variant="outline" 
             className="h-9 text-sm font-medium border-[#3A4358] hover:bg-[#0c1a36] flex items-center"
           >
             <Upload className="h-4 w-4 mr-2" />
@@ -80,9 +87,9 @@ export default function Sidebar() {
                 >
                   <Link
                     href={item.href}
-                    className={`flex items-center px-4 py-3 text-sm font-semibold rounded-md transition-colors ${
+                    className={`flex items-center px-4 py-3 text-sm font-semibold rounded-full transition-colors ${
                       isActive
-                        ? "text-[#FFFFFF] bg-[#0c1a36]"
+                        ? "text-[#FFFFFF] bg-[#2B9DDA14]"
                         : "text-gray-300 hover:bg-[#0c1a36]"
                     }`}
                   >
