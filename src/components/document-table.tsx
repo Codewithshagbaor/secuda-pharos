@@ -104,8 +104,8 @@ export default function DocumentTable() {
        
         <Image
           src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/https___lottiefiles.com_animations_loading-40-paperplane-pXSmJB5J2C-puFEjFkAAYpUzlBWYX3LAfv8XXvQNb.gif"
-          alt="Loading animation"
-          className="w-full h-full object-contain"
+          alt="Loading animation" width={100} height={100}
+          className="w-full h-full object-contain" 
         />
       </div>
       <div className="text-center">
