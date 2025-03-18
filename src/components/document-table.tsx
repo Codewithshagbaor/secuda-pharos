@@ -5,15 +5,16 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 
 type Document = {
-  name: string;
-  date: string;
-  type: string;
-  size: string;
-  status: string;
-};
+  name: string
+  date: string
+  type: string
+  size: string
+  status: string
+}
 
 export default function DocumentTable() {
   const [isMobile, setIsMobile] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   // if on mobile
   useEffect(() => {
@@ -28,6 +29,15 @@ export default function DocumentTable() {
 
     // Cleanup
     return () => window.removeEventListener("resize", checkIfMobile)
+  }, [])
+
+  // Simulate loading for a few seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 5000) // 5 seconds
+
+    return () => clearTimeout(timer)
   }, [])
 
   const documents = [
@@ -88,6 +98,23 @@ export default function DocumentTable() {
     }
   }
 
+  const LoadingState = () => (
+    <div className="flex flex-col items-center justify-center h-[60vh] w-full">
+      <div className="relative mb-4">
+       
+        <Image
+          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/https___lottiefiles.com_animations_loading-40-paperplane-pXSmJB5J2C-puFEjFkAAYpUzlBWYX3LAfv8XXvQNb.gif"
+          alt="Loading animation"
+          className="w-full h-full object-contain"
+        />
+      </div>
+      <div className="text-center">
+        <h2 className="text-xl font-medium text-white mb-2">Your documents are being fetched, please relax a little</h2>
+        <p className="text-gray-400 text-sm">fetching documents...</p>
+      </div>
+    </div>
+  )
+
   // Mobile
   const MobileDocumentCard = ({ doc, index }: { doc: Document; index: number }) => (
     <div key={index} className="bg-[#071A32A3] border border-[#242D40] rounded-xl p-4 mb-3">
@@ -118,11 +145,17 @@ export default function DocumentTable() {
         </div>
         <div>
           <p className="text-gray-400">STATUS</p>
-          <span className={`text-xs ${doc.status === "Minted" ? "text-[#47A663]" : "text-[#F94F59]"}`}>{doc.status}</span>
+          <span className={`text-xs ${doc.status === "Minted" ? "text-[#47A663]" : "text-[#F94F59]"}`}>
+            {doc.status}
+          </span>
         </div>
       </div>
     </div>
   )
+
+  if (isLoading) {
+    return <LoadingState />
+  }
 
   return (
     <div className="h-full w-full pb-20 md:pb-6">
