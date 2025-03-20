@@ -29,7 +29,7 @@ export default function RootLayout({
           </div>
           <div className="flex flex-1 pt-16 overflow-y-auto">
             <Sidebar />
-            <main className="flex-1 p-6">{children}</main>
+            <main className="w-full">{children}</main>
           </div>
         </div>
       </body>
