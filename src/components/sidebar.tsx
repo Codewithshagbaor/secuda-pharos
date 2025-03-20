@@ -35,7 +35,7 @@ export default function Sidebar() {
   return (
     <>
      {/* Mobile */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#040E24] border-t border-[#1e2d47] z-50">
+      { pathname != "/" && <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#040E24] border-t border-[#1e2d47] z-50">
         <div className="flex justify-around items-center py-2">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
@@ -70,10 +70,10 @@ export default function Sidebar() {
             Upload
           </Button>
         </div>
-      </div>
+      </div>}
 
       {/* Desktop */}
-      <div className="hidden md:flex w-[240px] bg-[#040E24] border-r border-[#1e2d47] flex-col">
+      {pathname != "/" && <div className="hidden md:flex w-[240px] bg-[#040E24] border-r border-[#1e2d47] flex-col">
         <div className="flex-1 py-4">
           <nav className="space-y-1 px-2">
             {navItems.map((item) => {
@@ -114,7 +114,7 @@ export default function Sidebar() {
         <div className="p-4">
           <ConnectedWalletCard />
         </div>
-      </div>
+      </div>}
     </>
   );
 }
