@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
 import Button from "./button"
-import { Upload, Search, FileText } from "lucide-react"
+import { Upload, Search, FileText, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
@@ -22,18 +22,16 @@ export default function Navbar() {
   }
 
   const [selectedFile, setSelectedFile] = useState<SelectedFile | null>(null)
+  const [documentName, setDocumentName] = useState("")
   const [uploadType, setUploadType] = useState("upload") // "upload" or "mint"
   const [isProcessing, setIsProcessing] = useState(false)
   const [redirectPath, setRedirectPath] = useState("")
 
   // Debug: Log state changes
-  useEffect(() => {
-  }, [uploadType])
+  useEffect(() => {}, [uploadType])
 
-  useEffect(() => {
-  }, [redirectPath])
+  useEffect(() => {}, [redirectPath])
 
- 
   useEffect(() => {
     if (!isProcessing && redirectPath && uploadStep === 3) {
       const timer = setTimeout(() => {
@@ -55,17 +53,28 @@ export default function Navbar() {
     fileInputRef.current?.click()
   }
 
+  // Helper function to get file name without extension
+  const getFileNameWithoutExtension = (fileName: string) => {
+    return fileName.replace(/\.[^/.]+$/, "")
+  }
+
   interface FileChangeEvent extends React.ChangeEvent<HTMLInputElement> {
     target: HTMLInputElement & EventTarget
   }
 
   const handleFileChange = (e: FileChangeEvent) => {
     if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0]
+      const fileNameWithoutExt = getFileNameWithoutExtension(file.name)
+
       setSelectedFile({
-        file: e.target.files[0],
-        name: e.target.files[0].name,
-        size: (e.target.files[0].size / 1024 / 1024).toFixed(2),
+        file: file,
+        name: file.name,
+        size: (file.size / 1024 / 1024).toFixed(2),
       })
+
+      // Set the document name without extension
+      setDocumentName(fileNameWithoutExt)
       setUploadStep(2)
     }
   }
@@ -79,11 +88,17 @@ export default function Navbar() {
   const handleDrop = (e: DropEvent) => {
     e.preventDefault()
     if (e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0]
+      const fileNameWithoutExt = getFileNameWithoutExtension(file.name)
+
       setSelectedFile({
-        file: e.dataTransfer.files[0],
-        name: e.dataTransfer.files[0].name,
-        size: (e.dataTransfer.files[0].size / 1024 / 1024).toFixed(2),
+        file: file,
+        name: file.name,
+        size: (file.size / 1024 / 1024).toFixed(2),
       })
+
+      // Set the document name without extension
+      setDocumentName(fileNameWithoutExt)
       setUploadStep(2)
     }
   }
@@ -104,6 +119,7 @@ export default function Navbar() {
   const closeUploadDialog = () => {
     setUploadStep(0)
     setSelectedFile(null)
+    setDocumentName("")
     setIsProcessing(false)
     // Don't reset uploadType and redirectPath here to preserve the selection
   }
@@ -135,9 +151,18 @@ export default function Navbar() {
             <Upload className="mr-2 h-4 w-4" />
             Upload Document
           </Button>
+          {/* Mobile upload button */}
+          <Button
+            variant="outline"
+            className="h-9 w-9 p-0 flex items-center justify-center sm:hidden border-[#3A4358] hover:bg-[#0c1a36] rounded-full"
+            onClick={handleUploadClick}
+          >
+            <Upload className="h-4 w-4" />
+            <span className="sr-only">Upload Document</span>
+          </Button>
           <Button
             variant="primary"
-            className="h-9 text-sm font-medium bg-[#2B9DDA] hover:bg-[#2589c2] truncate rounded-full"
+            className="h-9 text-sm font-medium bg-[#2B9DDA] hover:bg-[#2589c2] truncate rounded-full max-w-[140px] sm:max-w-none"
           >
             Hello! 0xe...0009
           </Button>
@@ -146,10 +171,18 @@ export default function Navbar() {
 
       {/* Upload */}
       {uploadStep > 0 && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="bg-[#040E24] border border-[#1e2d47] rounded-lg w-full max-w-3xl mx-4">
-            <div className="p-8">
-              <h2 className="text-white text-center text-lg mb-2">
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#040E24] border border-[#1e2d47] rounded-lg w-full max-w-3xl relative">
+            <button
+              onClick={closeUploadDialog}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white p-1 rounded-full hover:bg-[#1e2d47] transition-colors"
+              aria-label="Close"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            <div className="p-4 sm:p-8">
+              <h2 className="text-white text-center text-lg mb-2 pr-8">
                 {uploadStep === 3
                   ? uploadType === "mint"
                     ? "Minting your document"
@@ -159,7 +192,7 @@ export default function Navbar() {
 
               {uploadStep === 1 && (
                 <div
-                  className="border-2 border-dashed border-[#3A4358] bg-[#0C2A49D4] rounded-lg mt-6 p-12"
+                  className="border-2 border-dashed border-[#3A4358] bg-[#0C2A49D4] rounded-lg mt-6 p-6 sm:p-12"
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                 >
@@ -187,7 +220,7 @@ export default function Navbar() {
               {uploadStep === 2 && selectedFile && (
                 <div className="mt-6">
                   <div
-                    className="border-2 border-dashed border-[#3A4358] bg-[#0C2A49D4] rounded-lg mt-6 p-12"
+                    className="border-2 border-dashed border-[#3A4358] bg-[#0C2A49D4] rounded-lg mt-6 p-6 sm:p-12"
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                   >
@@ -220,9 +253,9 @@ export default function Navbar() {
                     <div className="text-[#2B9DDA] mr-3">
                       <FileText size={24} />
                     </div>
-                    <div>
+                    <div className="overflow-hidden">
                       <div className="text-[#00D966] font-medium">File selected</div>
-                      <div className="text-white">{selectedFile.name}</div>
+                      <div className="text-white truncate">{selectedFile.name}</div>
                       <div className="text-gray-400 text-sm">{selectedFile.size} MB</div>
                     </div>
                   </div>
@@ -231,11 +264,13 @@ export default function Navbar() {
                     type="text"
                     placeholder="Enter a name for your document"
                     className="w-full bg-transparent border border-[#3A4358] rounded-3xl px-4 py-3 mt-4 text-white focus:outline-none focus:border-[#2B9DDA]"
+                    value={documentName}
+                    onChange={(e) => setDocumentName(e.target.value)}
                   />
 
                   <div className="mt-4">
-                    <p className="text-white mb-4">Select upload type:</p>
-                    <div className="flex space-x-4 justify-center">
+                    <p className="text-white mb-4 text-center sm:text-left">Select upload type:</p>
+                    <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-center">
                       <button
                         type="button"
                         className={`rounded-full px-6 py-2 ${
@@ -272,7 +307,7 @@ export default function Navbar() {
               )}
 
               {uploadStep === 3 && (
-                <div className="border border-dashed border-[#3A4358] rounded-lg mt-6 p-12">
+                <div className="border border-dashed border-[#3A4358] rounded-lg mt-6 p-6 sm:p-12">
                   <div className="flex flex-col items-center justify-center">
                     <p className="text-white text-center mb-6">
                       {uploadType === "mint"

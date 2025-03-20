@@ -98,11 +98,11 @@ export default function NFTMintingPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-2 text-sm">
                     <div>
-                      <p className="text-gray-400">Token ID</p>
+                      <p className="text-gray-400 text-xs sm:text-sm">Token ID</p>
                       <p className="text-white">{nft.tokenId}</p>
                     </div>
                     <div>
-                      <p className="text-gray-400">Chain</p>
+                      <p className="text-gray-400 text-xs sm:text-sm">Chain</p>
                       <p className="text-white">{nft.chain}</p>
                     </div>
                     
