@@ -5,9 +5,9 @@ import Navbar from "../components/navbar"
 import Sidebar from "../components/sidebar"
 
 export const metadata: Metadata = {
-  title: "DataBank Dashboard",
+  title: "Secuda Dashboard",
   description:
-    "DataBank is a decentralized document storage system built on the blockchain, leveraging Non-Fungible Token (NFT) technology to represent and protect user documents.",
+    "Secuda is a decentralized document storage system built on the blockchain, leveraging Non-Fungible Token (NFT) technology to represent and protect user documents.",
 
   icons: {
     icon: "/favicon.png",
