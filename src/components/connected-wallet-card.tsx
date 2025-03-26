@@ -1,4 +1,3 @@
-import Button from "./button"
 import ConnectWalletButton from "@/components/ConnectWeb3Wallet"
 
 export default function ConnectWalletCard() {
