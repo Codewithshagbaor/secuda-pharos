@@ -7,10 +7,10 @@ export default function HowItWorks() {
         {/* Section Header */}
         <div className="mb-16 text-center  max-w-3xl mx-auto">
           <h2 className="mb-4 text-3xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
-            How <span className="text-[#38bdf8]">DataBank</span> Works: Secure & Simple Document Storage
+            How <span className="text-[#38bdf8]">Secuda</span> Works: Secure & Simple Document Storage
           </h2>
           <p className="mx-auto max-w-2xl text-gray-400">
-            DataBank makes document storage effortless, secure, and fully under your control. Follow these simple steps
+            Secuda makes document storage effortless, secure, and fully under your control. Follow these simple steps
             to get started:
           </p>
         </div>
@@ -25,7 +25,7 @@ export default function HowItWorks() {
             <div>
               <h3 className="mb-2 text-xl font-semibold text-white">Connect Your Wallet</h3>
               <p className="text-sm text-gray-400">
-                Begin by connecting your wallet easily. Data Wallet is secure DataBank securely without storing
+                Begin by connecting your wallet easily. Data Wallet is secure Secuda securely without storing
                 passwords. Your wallet serves as your secure key to access your documents.
               </p>
             </div>
@@ -40,7 +40,7 @@ export default function HowItWorks() {
               <h3 className="mb-2 text-xl font-semibold text-white">Upload Your Documents</h3>
               <p className="text-sm text-gray-400">
                 Drag and drop your files or select them manually to upload. Choose the document type—whether it&apos;s NFTs,
-                assets, or certificates. DataBank securely stores your files public, private, or shared with select
+                assets, or certificates. Secuda securely stores your files public, private, or shared with select
                 users.
               </p>
             </div>
@@ -92,7 +92,7 @@ export default function HowItWorks() {
 
         {/* CTA Button */}
         <div className="mt-12 flex justify-center">
-          <Button className="bg-[#38bdf8] md:px-12 py-6 text-white hover:bg-[#0ea5e9] h-9 rounded-full">Start with DataBank</Button>
+          <Button className="bg-[#38bdf8] md:px-12 py-6 text-white hover:bg-[#0ea5e9] h-9 rounded-full">Start with Secuda</Button>
         </div>
       </div>
     </section>

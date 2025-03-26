@@ -6,7 +6,7 @@ export default function FeaturesSection() {
         {/* Section Header */}
         <div className="mb-16 text-center max-w-3xl mx-auto">
           <h2 className="mb-4 text-3xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
-            Unlock the Future of Data Storage With Databank
+            Unlock the Future of Data Storage With Secuda
           </h2>
           <p className="mx-auto max-w-2xl text-gray-400">
             Upload documents, convert them to secure NFTs, and manage, share, or verify with privacy control.

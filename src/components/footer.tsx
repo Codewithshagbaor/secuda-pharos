@@ -10,11 +10,11 @@ export default function Footer() {
                     {/* Left Column - Logo and Description */}
                     <div className="space-y-4">
                         <Link href="/" className="flex items-center">
-                            <Image src="/img/logo.png" alt="DataBank" width={200} height={200} className="h-6 w-auto" />
+                            <Image src="/img/logo.png" alt="Secuda" width={200} height={200} className="h-6 w-auto" />
                         </Link>
 
                         <p className="text-gray-400 max-w-md">
-                            Data-Bank is a secure, decentralized document storage solution that transforms your important files into
+                            Secuda is a secure, decentralized document storage solution that transforms your important files into
                             verifiable NFTs. Enjoy immutable, tamper-proof storage with complete control over your digital assets.
                         </p>
 
@@ -60,7 +60,7 @@ export default function Footer() {
 
                 {/* Copyright */}
                 <div className="mt-12 pt-4 border-t border-gray-800 text-center text-gray-500 text-sm">
-                    © 2024 Data-Bank. Empowering secure, decentralized document storage.
+                    © 2024 Secuda. Empowering secure, decentralized document storage.
                 </div>
             </div>
         </footer>

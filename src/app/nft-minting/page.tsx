@@ -4,7 +4,7 @@ import { useState } from "react"
 import Button from "@/components/button"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
-
+import ProtectedRoute from "@/components/ProtectedRoute";
 export default function NFTMintingPage() {
   const [activeTab, setActiveTab] = useState("minted")
 
@@ -50,6 +50,7 @@ export default function NFTMintingPage() {
   ]
 
   return (
+    <ProtectedRoute>
     <div className="bg-[#040E24]">
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center mb-6">
@@ -161,6 +162,7 @@ export default function NFTMintingPage() {
         )}
       </div>
     </div>
+    </ProtectedRoute>
   )
 }
 

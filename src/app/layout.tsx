@@ -3,6 +3,8 @@ import "./globals.css"
 import type { Metadata } from "next"
 import Navbar from "../components/navbar"
 import Sidebar from "../components/sidebar"
+import { Web3Provider } from "@/providers/Web3Provider";
+
 
 export const metadata: Metadata = {
   title: "Secuda Dashboard",
@@ -23,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-[#040E24] text-white">
+      <Web3Provider>
         <div className="flex flex-col min-h-screen">
           <div className="fixed top-0 left-0 right-0 z-50">
             <Navbar />
@@ -32,6 +35,7 @@ export default function RootLayout({
             <main className="w-full">{children}</main>
           </div>
         </div>
+      </Web3Provider>
       </body>
     </html>
   )
