@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import ConnectWalletButton from "@/components/ConnectWeb3Wallet"
 
 export default function HeroSection() {
     return (
@@ -23,7 +26,7 @@ export default function HeroSection() {
 
                     {/* CTA Buttons */}
                     <div className="mt-8 flex flex-wrap justify-center gap-4">
-                        <Button className="bg-[#38bdf8] md:px-12 py-6 text-white hover:bg-[#0ea5e9] h-9 rounded-full">Connect wallet</Button>
+                        <ConnectWalletButton />
                         <Button variant="outline" className="border-white md:px-12 py-6 text-white hover:bg-gray-800 bg-[#020817] h-9 rounded-full">
                             Learn more
                         </Button>
@@ -33,7 +36,7 @@ export default function HeroSection() {
                     <div className="mt-16 w-full max-w-4xl relative rounded-lg overflow-hidden">
                         <Image
                             src="/img/heroImage.png"
-                            alt="DataBank App Screenshot"
+                            alt="Secuda App Screenshot"
                             width={1000}
                             height={500}
                             layout="responsive"

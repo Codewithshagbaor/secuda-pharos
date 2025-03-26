@@ -12,9 +12,9 @@ type FAQItem = {
 const faqItems: FAQItem[] = [
   {
     id: "01",
-    question: "What is Data-Bank?",
+    question: "What is Secuda?",
     answer:
-      "Data-Bank is a decentralized document storage platform that leverages blockchain technology to secure your critical documents by converting them into NFTs. It enables you to store, manage, and share digital assets such as IDs, passports, and certificates with verifiable authenticity and permanence.",
+      "Secuda is a decentralized document storage platform that leverages blockchain technology to secure your critical documents by converting them into NFTs. It enables you to store, manage, and share digital assets such as IDs, passports, and certificates with verifiable authenticity and permanence.",
   },
   {
     id: "02",
@@ -26,13 +26,13 @@ const faqItems: FAQItem[] = [
     id: "03",
     question: "Which wallets are supported?",
     answer:
-      "Data-Bank integrates seamlessly with Algorand-based wallets like Pera Wallet. This allows you to securely connect to the platform manage your digital identity, and handle document transactions without traditional password logins, enhancing both security and user experience.",
+      "Secuda integrates seamlessly with Algorand-based wallets like Pera Wallet. This allows you to securely connect to the platform manage your digital identity, and handle document transactions without traditional password logins, enhancing both security and user experience.",
   },
   {
     id: "04",
     question: "Can I share my documents?",
     answer:
-      "Absolutely. Data-Bank offers flexible sharing options through secure links or QR codes. You can customize access permissions to control who can view or edit your documents, ensuring that while your data remains private and secure, you still have the ability to collaborate or provide verified access when needed.",
+      "Absolutely. Secuda offers flexible sharing options through secure links or QR codes. You can customize access permissions to control who can view or edit your documents, ensuring that while your data remains private and secure, you still have the ability to collaborate or provide verified access when needed.",
   },
 ]
 
@@ -50,7 +50,7 @@ export default function FAQSection() {
         {/* Section Header */}
         <div className="mb-12 text-center max-w-3xl mx-auto">
           <h2 className="mb-4 text-3xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">
-            Data-Bank FAQ: Your Guide to Secure, Decentralized Document Storage
+            Secuda FAQ: Your Guide to Secure, Decentralized Document Storage
           </h2>
         </div>
 
@@ -93,10 +93,10 @@ export default function FAQSection() {
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="mb-6 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Data-Bank: Revolutionizing Secure Document Storage
+            Secuda: Revolutionizing Secure Document Storage
           </h2>
           <p className="text-lg text-gray-400">
-            Data-Bank is a secure blockchain-based document storage solution that helps you organize and manage your
+            Secuda is a secure blockchain-based document storage solution that helps you organize and manage your
             critical documents with ease. Experience the future of document storage and take control of your digital
             assets.
           </p>

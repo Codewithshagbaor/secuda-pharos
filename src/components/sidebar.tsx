@@ -29,8 +29,8 @@ export default function Sidebar() {
 
   const navItems = [
     {
-      name: "Home",
-      href: "/home",
+      name: "Dashboard",
+      href: "/dashboard",
       icon: "/img/home.png",
       isImage: true,
     },
