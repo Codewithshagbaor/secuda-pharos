@@ -4,6 +4,7 @@ import type { Metadata } from "next"
 import Navbar from "../components/navbar"
 import Sidebar from "../components/sidebar"
 import { Web3Provider } from "@/providers/Web3Provider";
+import { Toaster } from "react-hot-toast";
 
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-[#040E24] text-white">
       <Web3Provider>
+        <Toaster position="top-right" />
         <div className="flex flex-col min-h-screen">
           <div className="fixed top-0 left-0 right-0 z-50">
             <Navbar />
