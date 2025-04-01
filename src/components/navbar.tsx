@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useRef, useEffect } from "react"
 import Button from "./button"
 import { Upload, Search, FileText, X } from "lucide-react"
@@ -9,6 +8,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import ConnectWalletButton from "@/components/ConnectWeb3Wallet"
+import { useDocumentUpload } from '@/hooks/write/useMintDocument'
+import { toast } from 'react-hot-toast'
 
 export default function Navbar() {
   const router = useRouter()
@@ -16,6 +17,18 @@ export default function Navbar() {
   const isDocumentsPage = pathname === "/documents"
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [uploadStep, setUploadStep] = useState(0)
+
+  // Import the document upload hook with all needed properties
+  const { 
+    uploadToIpfs, 
+    isPending, 
+    isConfirming,
+    isConfirmed,
+    IsStored,
+    isUploading,
+    error 
+  } = useDocumentUpload()
+
   interface SelectedFile {
     file: File
     name: string
@@ -24,17 +37,12 @@ export default function Navbar() {
 
   const [selectedFile, setSelectedFile] = useState<SelectedFile | null>(null)
   const [documentName, setDocumentName] = useState("")
-  const [uploadType, setUploadType] = useState("upload") // "upload" or "mint"
-  const [isProcessing, setIsProcessing] = useState(false)
+  const [uploadType, setUploadType] = useState<'upload' | 'mint'>("upload")
   const [redirectPath, setRedirectPath] = useState("")
 
-  // Debug: Log state changes
-  useEffect(() => {}, [uploadType])
-
-  useEffect(() => {}, [redirectPath])
-
+  // Update useEffect to handle upload status and redirect after confirmation
   useEffect(() => {
-    if (!isProcessing && redirectPath && uploadStep === 3) {
+    if (isConfirmed && redirectPath) {
       const timer = setTimeout(() => {
         closeUploadDialog()
         router.push(redirectPath)
@@ -42,11 +50,35 @@ export default function Navbar() {
 
       return () => clearTimeout(timer)
     }
-  }, [isProcessing, redirectPath, uploadStep, router])
+  }, [isConfirmed, redirectPath, router])
+
+  useEffect(() => {
+    if (IsStored && redirectPath && uploadType === "upload") {
+      const timer = setTimeout(() => {
+        closeUploadDialog()
+        router.push(redirectPath)
+      }, 2500)
+
+      return () => clearTimeout(timer)
+    }
+  }, [IsStored, redirectPath, uploadType, router])
+
+  // Monitor transaction states and update UI accordingly
+  useEffect(() => {
+    // If we're in step 3 and the transaction is confirmed, show success message
+    if (uploadStep === 3 && isConfirmed) {
+      // Success is already handled by the redirect effect
+    }
+    
+    // If there was an error, go back to step 2 to allow retry
+    if (error && uploadStep === 3) {
+      setUploadStep(2)
+      toast.error(`Transaction failed: ${error.message || "Unknown error"}`)
+    }
+  }, [isConfirmed, error, uploadStep])
 
   const handleUploadClick = () => {
     setUploadStep(1)
-    setUploadType("upload")
     setRedirectPath("")
   }
 
@@ -108,21 +140,59 @@ export default function Navbar() {
     e.preventDefault()
   }
 
-  const handleUploadSubmit = async () => {
-    setUploadStep(3)
-    setIsProcessing(true)
+  // Modified upload submit to use uploadToIpfs and handle transaction states
+  const handleUploadSubmit = async (type: 'upload' | 'mint', path: string) => {
+    if (!selectedFile) {
+      toast.error("No file selected")
+      return
+    }
 
-    setTimeout(() => {
-      setIsProcessing(false)
-    }, 10000)
+    if (!documentName.trim()) {
+      toast.error("Please enter a document name")
+      return
+    }
+
+    // Set the upload type and redirect path
+    setUploadType(type)
+    setRedirectPath(path)
+    
+    // Move to the uploading state
+    setUploadStep(3)
+
+    try {
+      // Call the uploadToIpfs function with the specified type
+      uploadToIpfs(
+        selectedFile.file, 
+        documentName, 
+        type  // Use the passed type directly instead of the state
+      )
+      console.log(`Upload type is: ${type}`)
+      console.log(`Redirect path is: ${path}`)
+      
+      // will be monitored by the useEffect hooks
+    } catch (err) {
+      console.error("Upload error:", err)
+      setUploadStep(2) // Go back to form step
+      toast.error("An error occurred during upload")
+    }
   }
 
   const closeUploadDialog = () => {
     setUploadStep(0)
     setSelectedFile(null)
     setDocumentName("")
-    setIsProcessing(false)
     // Don't reset uploadType and redirectPath here to preserve the selection
+  }
+
+  // Get the current process status for display
+  const getProcessStatus = () => {
+    if (isUploading) return "Uploading to IPFS..."
+    if (isPending) return "Confirm in your wallet..."
+    if (isConfirming) return "Transaction confirming..."
+    if (isConfirmed) return "Upload complete!"
+    return uploadType === "mint" 
+      ? "Minting your document" 
+      : "Uploading your document"
   }
 
   return (
@@ -164,8 +234,7 @@ export default function Navbar() {
           <ConnectWalletButton />
         </div>
       </header>
-
-      {/* Upload */}
+      {/* Upload Modal */}
       {uploadStep > 0 && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
           <div className="bg-[#040E24] border border-[#1e2d47] rounded-lg w-full max-w-3xl relative">
@@ -173,6 +242,7 @@ export default function Navbar() {
               onClick={closeUploadDialog}
               className="absolute top-4 right-4 text-gray-400 hover:text-white p-1 rounded-full hover:bg-[#1e2d47] transition-colors"
               aria-label="Close"
+              disabled={uploadStep === 3 && !isConfirmed}
             >
               <X className="h-5 w-5" />
             </button>
@@ -180,18 +250,18 @@ export default function Navbar() {
             <div className="p-4 sm:p-8">
               <h2 className="text-white text-center text-lg mb-2 pr-8">
                 {uploadStep === 3
-                  ? uploadType === "mint"
-                    ? "Minting your document"
-                    : "Uploading your document"
+                  ? getProcessStatus()
                   : "Upload your document securely to the blockchain."}
               </h2>
 
+              {/* Existing upload steps remain the same */}
               {uploadStep === 1 && (
                 <div
                   className="border-2 border-dashed border-[#3A4358] bg-[#0C2A49D4] rounded-lg mt-6 p-6 sm:p-12"
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                 >
+                  {/* File upload input */}
                   <div className="flex flex-col items-center justify-center">
                     <p className="text-sm text-white text-center mb-8">Select your file or drag and drop here</p>
                     <Button
@@ -220,6 +290,7 @@ export default function Navbar() {
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                   >
+                    {/* Existing file selection UI */}
                     <div className="flex flex-col items-center justify-center">
                       <p className="text-sm text-white text-center mb-8">Select your file or drag and drop here</p>
                       <Button
@@ -245,6 +316,8 @@ export default function Navbar() {
                       />
                     </div>
                   </div>
+                  
+                  {/* Selected file details */}
                   <div className="bg-[#0a1830] p-4 rounded-lg flex items-center">
                     <div className="text-[#2B9DDA] mr-3">
                       <FileText size={24} />
@@ -256,6 +329,7 @@ export default function Navbar() {
                     </div>
                   </div>
 
+                  {/* Document name input */}
                   <input
                     type="text"
                     placeholder="Enter a name for your document"
@@ -264,6 +338,7 @@ export default function Navbar() {
                     onChange={(e) => setDocumentName(e.target.value)}
                   />
 
+                  {/* Upload type selection - FIXED */}
                   <div className="mt-4">
                     <p className="text-white mb-4 text-center sm:text-left">Select upload type:</p>
                     <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-center">
@@ -274,11 +349,7 @@ export default function Navbar() {
                             ? "bg-[#2B9DDA] text-white"
                             : "bg-[#0C2A49] text-white border border-[#3A4358]"
                         }`}
-                        onClick={() => {
-                          setUploadType("upload")
-                          setRedirectPath("/documents")
-                          setTimeout(() => handleUploadSubmit(), 100)
-                        }}
+                        onClick={() => handleUploadSubmit("upload", "/documents")}
                       >
                         Upload only
                       </button>
@@ -289,11 +360,7 @@ export default function Navbar() {
                             ? "bg-[#2B9DDA] text-white"
                             : "bg-[#0C2A49] text-white border border-[#3A4358]"
                         }`}
-                        onClick={() => {
-                          setUploadType("mint")
-                          setRedirectPath("/nft-minting")
-                          setTimeout(() => handleUploadSubmit(), 100)
-                        }}
+                        onClick={() => handleUploadSubmit("mint", "/nft-minting")}
                       >
                         Upload and mint as NFT
                       </button>
@@ -306,16 +373,14 @@ export default function Navbar() {
                 <div className="border border-dashed border-[#3A4358] rounded-lg mt-6 p-6 sm:p-12">
                   <div className="flex flex-col items-center justify-center">
                     <p className="text-white text-center mb-6">
-                      {uploadType === "mint"
-                        ? "Your document is being minted as an NFT, please relax a little"
-                        : "Your document is being uploaded to the blockchain, please relax a little"}
+                      {getProcessStatus()}
                     </p>
 
                     <div className="">
                       <Image src="/img/load.gif" alt="Loading" height={200} width={200} className="object-contain" />
                     </div>
 
-                    {!isProcessing && (
+                    {isConfirmed && (
                       <p className="text-[#00D966] text-center mt-6">
                         {uploadType === "mint"
                           ? `Upload complete! Redirecting to NFT page...`
@@ -332,4 +397,3 @@ export default function Navbar() {
     </>
   )
 }
-
