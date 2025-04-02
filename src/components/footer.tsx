@@ -19,7 +19,7 @@ export default function Footer() {
                         </p>
 
                         <div className="flex space-x-4 pt-2">
-                            <Link href="#" className="bg-[#1a2436] p-2 rounded-md hover:bg-[#2a3446] transition-colors">
+                            <Link href="https://x.com/databank101" className="bg-[#1a2436] p-2 rounded-md hover:bg-[#2a3446] transition-colors">
                                 <Twitter className="h-5 w-5 text-[#38bdf8]" />
                             </Link>
                         </div>
