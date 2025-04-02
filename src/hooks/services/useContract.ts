@@ -1,7 +1,6 @@
 import SECUDA_ABI from "@/constants/abis/Secuda.json"
 import { SECUDA_CONTRACT } from '@/constants/addresses/Secuda-contract'
-import { useWriteContract, useReadContract } from 'wagmi'
-import { parseEther } from 'viem'
+import { useReadContract } from 'wagmi'
 import { useEffect, useState } from "react"
 
 export const useReadAppContract = (functionName: string, args: unknown[] = []) => {
