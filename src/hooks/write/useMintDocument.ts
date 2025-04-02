@@ -127,6 +127,7 @@ export function useDocumentUpload() {
         }
         
         // Store uploaded IPFS document details to Supabase
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { data, error } = await supabase
           .from('documents')
           .insert([
@@ -191,6 +192,7 @@ export function useDocumentUpload() {
       setIsUploading(true)
       
       try {
+        // eslint-disable-next-line prefer-const
         let uploadToast = toast.loading(`Uploading ${documentName} to IPFS!`)
         
         const upload = await pinata.upload.file(file)

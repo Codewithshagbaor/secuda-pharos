@@ -54,6 +54,7 @@ export default function DocumentTable() {
         
         // Only apply date range if it's being used
         if (useDateRange) {
+          setDateRange({start: '2023-02-14', end: '2023-03-14'})
           query = query
             .gte('created_at', dateRange.start)
             .lte('created_at', dateRange.end)
