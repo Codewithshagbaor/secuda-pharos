@@ -90,33 +90,6 @@ export function useDocumentUpload() {
   }, [isPending, isSuccess, isConfirmed, error, hash])
   
   // Mint document function
-  const mintDocument = useCallback(
-    async (documentHash: string, documentURI: string, documentName: string, documentType: string, documentSize: string) => {
-      try {
-        if (!address) {
-          toast.error("No wallet connected")
-          return false
-        }
-        
-        // Use writeContract from wagmi hook
-        writeContract({
-          abi: SECUDA_ABI,
-          address: SECUDA_CONTRACT,
-          functionName: 'storeDocument',
-          args: [documentHash, documentURI, documentName, documentType, documentSize]
-        })
-
-        await storeDocument(address, documentHash, documentURI, documentName, documentType, documentSize, "MINTED")
-        
-        return true
-      } catch (mintDocumentError) {
-        toast.error(String(mintDocumentError))
-        setIsUploading(false)
-        return false
-      }
-    }, 
-    [address, writeContract]
-  )
   
   const storeDocument = useCallback(
     async (address: string, documentHash: string, documentURI: string, documentName: string, documentType: string, documentSize: string, status: string) => {
@@ -127,8 +100,7 @@ export function useDocumentUpload() {
         }
         
         // Store uploaded IPFS document details to Supabase
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { data, error } = await supabase
+        const { error } = await supabase
           .from('documents')
           .insert([
             {
@@ -163,9 +135,36 @@ export function useDocumentUpload() {
         return false
       }
     }, 
-    [address]
+    []
   )
   
+  const mintDocument = useCallback(
+    async (documentHash: string, documentURI: string, documentName: string, documentType: string, documentSize: string) => {
+      try {
+        if (!address) {
+          toast.error("No wallet connected")
+          return false
+        }
+        
+        // Use writeContract from wagmi hook
+        writeContract({
+          abi: SECUDA_ABI,
+          address: SECUDA_CONTRACT,
+          functionName: 'storeDocument',
+          args: [documentHash, documentURI, documentName, documentType, documentSize]
+        })
+
+        await storeDocument(address, documentHash, documentURI, documentName, documentType, documentSize, "MINTED")
+        
+        return true
+      } catch (mintDocumentError) {
+        toast.error(String(mintDocumentError))
+        setIsUploading(false)
+        return false
+      }
+    }, 
+    [address, writeContract, storeDocument]
+  )
   
   // Upload to IPFS function
   const uploadToIpfs = useCallback(
