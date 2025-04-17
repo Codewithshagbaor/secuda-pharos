@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/utils/supabase';
 import { toast } from 'react-hot-toast';
-import { useAccount } from 'wagmi'
+import { useAccount } from 'wagmi';
 
 export interface RecentDocument {
   id: string;
@@ -11,12 +11,19 @@ export interface RecentDocument {
   date: string;
   size: string;
   type: string;
-  // Keep the interface consistent but use empty array for now
   sharedWith: { id: number; avatar: string }[];
 }
 
+interface DocumentData {
+  id: string;
+  document_name?: string;
+  created_at: string;
+  document_size?: string;
+  document_type?: string;
+}
+
 export function useRecentDocuments(limit: number = 6) {
-    const { address } = useAccount()
+  const { address } = useAccount();
   const [documents, setDocuments] = useState<RecentDocument[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -44,9 +51,8 @@ export function useRecentDocuments(limit: number = 6) {
         }
         
         // Format documents without sharing information
-        const formattedDocuments = data.map(doc => ({
+        const formattedDocuments = data.map((doc: DocumentData) => ({
           ...formatDocument(doc),
-          // For now, use empty array for sharedWith
           sharedWith: []
         }));
         
@@ -61,10 +67,10 @@ export function useRecentDocuments(limit: number = 6) {
     }
     
     fetchRecentDocuments();
-  }, [limit]);
+  }, [limit, address]); // Added 'address' to the dependency array
   
   // Helper function to format document data
-  function formatDocument(doc: any): Omit<RecentDocument, 'sharedWith'> {
+  function formatDocument(doc: DocumentData): Omit<RecentDocument, 'sharedWith'> {
     const date = new Date(doc.created_at);
     const formattedDate = date.toLocaleString('en-US', {
       month: 'long',
