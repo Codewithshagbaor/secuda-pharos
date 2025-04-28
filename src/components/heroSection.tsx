@@ -27,9 +27,6 @@ export default function HeroSection() {
                     {/* CTA Buttons */}
                     <div className="mt-8 flex flex-wrap justify-center gap-4">
                         <ConnectWalletButton />
-                        <Button variant="outline" className="border-white md:px-12 py-6 text-white hover:bg-gray-800 bg-[#020817] h-9 rounded-full">
-                            Learn more
-                        </Button>
                     </div>
 
                     {/* App Screenshot - Half Cropped */}
