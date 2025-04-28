@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAccount } from "wagmi"; // Assuming you're using wagmi for wallet connection
 
@@ -11,16 +11,22 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isConnected } = useAccount();
   const router = useRouter();
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   useEffect(() => {
-    // If wallet is not connected, redirect to landing page
-    if (!isConnected) {
+    // Set page loaded to true after the component mounts
+    setIsPageLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    // Check wallet connection only after the page has loaded
+    if (isPageLoaded && !isConnected) {
       router.push("/");
     }
-  }, [isConnected, router]);
+  }, [isPageLoaded, isConnected, router]);
 
   // If wallet is not connected, you can show a loading state or nothing
-  if (!isConnected) {
+  if (!isPageLoaded || !isConnected) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#020817]">
         <div className="text-white text-center">
