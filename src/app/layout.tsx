@@ -8,7 +8,7 @@ import { Toaster } from "react-hot-toast";
 
 
 export const metadata: Metadata = {
-  title: "Secuda Dashboard",
+  title: "Secuda",
   description:
     "Secuda is a decentralized document storage system built on the blockchain, leveraging Non-Fungible Token (NFT) technology to represent and protect user documents.",
 
