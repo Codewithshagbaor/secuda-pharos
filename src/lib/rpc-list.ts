@@ -1,10 +1,9 @@
 
 const RPC = {
-    656476: [
-      "https://rpc.open-campus-codex.gelato.digital",
-      "https://open-campus-codex-sepolia.drpc.org",
-      "wss://open-campus-codex-sepolia.drpc.org",
-    ]
-  }
-  
-  export default RPC
+  50002: [
+    "https://devnet.dplabs-internal.com/",
+    "wss://devnet.dplabs-internal.com",
+  ]
+}
+
+export default RPC
