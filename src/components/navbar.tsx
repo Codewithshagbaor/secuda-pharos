@@ -8,6 +8,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import ConnectWalletButton from "@/components/ConnectWeb3Wallet"
+import ChainSelector from "./ChainSelector";
 import { useDocumentUpload } from '@/hooks/write/useMintDocument'
 import { toast } from 'react-hot-toast'
 
@@ -17,6 +18,7 @@ export default function Navbar() {
   const isDocumentsPage = pathname === "/documents"
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [uploadStep, setUploadStep] = useState(0)
+
 
   // Import the document upload hook with all needed properties
   const { 
@@ -195,6 +197,10 @@ export default function Navbar() {
       : "Uploading your document"
   }
 
+  function setSelectedChainId(id: number): void {
+    console.log(`Selected chain ID: ${id}`);
+    // You can add additional logic here if needed, such as updating state or context
+  }
   return (
     <>
       <header className="h-16 flex items-center justify-between px-4 sm:px-6 bg-[#040E24] border-b border-[#1e2d47]">
@@ -231,6 +237,7 @@ export default function Navbar() {
             <Upload className="h-4 w-4" />
             <span className="sr-only">Upload Document</span>
           </Button>
+          <ChainSelector setSelectedChainId={setSelectedChainId} />
           <ConnectWalletButton />
         </div>
       </header>
