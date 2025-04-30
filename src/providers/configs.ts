@@ -1,15 +1,16 @@
-import { pharosdevnet } from "@/chains/customChains";
+import { pharosdevnet, educhain } from "@/chains/customChains";
 import { createConfig, http } from "wagmi";
-
+import { webSocket } from '@wagmi/core'
 import { getDefaultConfig } from "connectkit";
 
 export const config = createConfig(
     getDefaultConfig({
       // Your dApp's chains
-      chains: [pharosdevnet],
+      chains: [pharosdevnet, educhain],
       transports: {
-        // You may want to use a custom RPC url here
-        [pharosdevnet.id]: http(pharosdevnet.rpcUrls.default.http[0])
+        [pharosdevnet.id]: http(pharosdevnet.rpcUrls.default.http[0]),
+        [educhain.id]: http(educhain.rpcUrls.default.http[0]),
+        [educhain.id]: webSocket("wss://open-campus-codex-sepolia.drpc.org"),
       },
       // Required API Keys
       walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "",

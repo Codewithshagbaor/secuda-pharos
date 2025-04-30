@@ -3,13 +3,18 @@ import { useWriteContract, useAccount, useWaitForTransactionReceipt } from 'wagm
 import { PinataSDK } from 'pinata-web3'
 import { toast } from 'react-hot-toast'
 import SECUDA_ABI from "@/constants/abis/Secuda.json"
-import { SECUDA_CONTRACT } from '@/constants/addresses/Secuda-contract'
+import { CONTRACT_ADDRESSES } from "@/constants/contracts";
+import { useChainSwitcher } from "@/hooks/useChainSwitcher";
 import { supabase } from '@/utils/supabase';
+import { useChainId } from "wagmi";
 
 // Type for upload options
 type UploadType = 'upload' | 'mint'
 
 export function useDocumentUpload() {
+  const { switchToChain } = useChainSwitcher();
+  const currentChainId = useChainId();
+  const [selectedChainId, setSelectedChainId] = useState<number>(currentChainId);
   const { address } = useAccount()
   const { writeContract, isPending, isSuccess, error, data: hash } = useWriteContract()
   
@@ -140,7 +145,14 @@ export function useDocumentUpload() {
   
   const mintDocument = useCallback(
     async (documentHash: string, documentURI: string, documentName: string, documentType: string, documentSize: string) => {
+      const contractAddress = CONTRACT_ADDRESSES[selectedChainId as keyof typeof CONTRACT_ADDRESSES];
+      console.log(`Miniting on Chain: ${selectedChainId} Contract: ${contractAddress}`)
+      if (!contractAddress) {
+        toast.error("Contract address not found for the selected chain");
+        return false;
+      }
       try {
+        await switchToChain(selectedChainId);
         if (!address) {
           toast.error("No wallet connected")
           return false
@@ -149,12 +161,17 @@ export function useDocumentUpload() {
         // Use writeContract from wagmi hook
         writeContract({
           abi: SECUDA_ABI,
-          address: SECUDA_CONTRACT,
+          address: contractAddress as `0x${string}`,
           functionName: 'storeDocument',
           args: [documentHash, documentURI, documentName, documentType, documentSize]
         })
 
-        await storeDocument(address, documentHash, documentURI, documentName, documentType, documentSize, "MINTED")
+        // Wait for transaction confirmation
+        if (isConfirmed) {
+          await storeDocument(address, documentHash, documentURI, documentName, documentType, documentSize, "MINTED")
+        toast.success(`Document minted on chain ID: ${selectedChainId}`);
+
+        }
         
         return true
       } catch (mintDocumentError) {
@@ -163,7 +180,7 @@ export function useDocumentUpload() {
         return false
       }
     }, 
-    [address, writeContract, storeDocument]
+    [address, writeContract, storeDocument, setSelectedChainId]
   )
   
   // Upload to IPFS function

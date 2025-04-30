@@ -29,23 +29,22 @@ export function useGetDocuments() {
     }
   })
   
-  // Get user NFTs
-    const getUserNFTs = useCallback(async () => {
-        try {
-        if (!address) {
-            console.log("No wallet address available");
-            return null;
-        }
+  const getUserNFTs = useCallback(async () => {
+    try {
+      if (!address) {
+          console.log("No wallet address available");
+          return null;
+      }
         
-        console.log("Fetching documents for address:", address);
-        console.log("Contract address:", SECUDA_CONTRACT);
-        const { data } = await refetchUserDocs();
-        console.log("Raw contract data received:", data);
-        return data;
-        } catch (error) {
+      console.log("Fetching documents for address:", address);
+      console.log("Contract address:", SECUDA_CONTRACT);
+      const { data } = await refetchUserDocs();
+      console.log("Raw contract data received:", data);
+      return data;
+      } catch (error) {
         console.error('Error fetching user documents:', error);
         return null;
-        }
+      }
     }, [address, refetchUserDocs]);
   
   // Get NFT metadata
