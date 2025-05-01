@@ -13,6 +13,11 @@ import { useAccount } from "wagmi";
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
     const { isConnected } = useAccount();
+    // const [mounted, setMounted] = useState(false);
+
+    // useEffect(() => {
+    //     setMounted(true);
+    // }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -26,7 +31,7 @@ export default function Navbar() {
     const scrollToSection = (id: string) => {
         const element = document.getElementById(id)
         if (element) {
-            const navbarHeight = 64 
+            const navbarHeight = 64
             const offsetPosition = element.offsetTop - navbarHeight
 
             window.scrollTo({
@@ -61,59 +66,63 @@ export default function Navbar() {
                     >
                         Home
                     </Link>
-                    <Link 
-                        href="#features" 
+                    <Link
+                        href="#features"
                         className="text-white hover:text-[#38bdf8] transition-colors"
                         onClick={(e) => {
                             e.preventDefault()
                             scrollToSection("features")
-                          }}
-                        >
+                        }}
+                    >
                         Features
                     </Link>
-                    <Link 
-                        href="#how-it-works" 
+                    <Link
+                        href="#how-it-works"
                         className="text-white hover:text-[#38bdf8] transition-colors"
                         onClick={(e) => {
                             e.preventDefault()
                             scrollToSection("how-it-works")
-                          }}
-                        >
+                        }}
+                    >
                         How it Works
                     </Link>
-                    <Link 
-                        href="#faq" 
+                    <Link
+                        href="#faq"
                         className="text-white hover:text-[#38bdf8] transition-colors"
                         onClick={(e) => {
                             e.preventDefault()
                             scrollToSection("faq")
-                          }}
-                        >
+                        }}
+                    >
                         FAQ
                     </Link>
-                    <Link 
-                        href="#about-us" 
+                    <Link
+                        href="#about-us"
                         className="text-white hover:text-[#38bdf8] transition-colors
                         "
                         onClick={(e) => {
                             e.preventDefault()
                             scrollToSection("about-us")
-                          }}
-                        >
+                        }}
+                    >
                         About Us
                     </Link>
                 </nav>
 
                 {/* Connect Wallet Button */}
-                <div className="hidden md:block">
-                    <ConnectWalletButton />
+                <div className="hidden md:flex items-center lg:space-x-2 xl:space-x-8">
+
                     {isConnected && (
-                        <Link href="/dashboard" className="text-white hover:text-[#38bdf8] transition-colors">
-                            Dashboard
-                        </Link>
+                        <>
+                            <Link href="/dashboard" className="text-white hover:text-[#38bdf8] transition-colors">
+                                <Button className="h-9 text-sm font-medium bg-[#2B9DDA] hover:bg-[#2589c2] rounded-full max-w-[140px] sm:max-w-none">
+                                    Dashboard
+                                </Button>
+                            </Link>
+                            
+                        </>
                     )}
-
-
+                    <ConnectWalletButton />
                 </div>
 
                 {/* Mobile Menu */}
@@ -126,55 +135,57 @@ export default function Navbar() {
                     </SheetTrigger>
                     <SheetContent side="right" className="bg-[#020817] text-white border-[#1e293b]">
                         <div className="flex flex-col space-y-6 mt-8">
-                            <Link 
-                                href="#home" 
+                            <Link
+                                href="#home"
                                 className="text-lg font-medium hover:text-[#38bdf8] transition-colors"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     scrollToSection("home")
                                 }}
-                                >
+                            >
                                 Home
                             </Link>
-                            <Link 
-                                href="#features" 
+                            <Link
+                                href="#features"
                                 className="text-lg font-medium hover:text-[#38bdf8] transition-colors"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     scrollToSection("features")
                                 }}
-                                >
+                            >
                                 Features
                             </Link>
-                            <Link 
-                                href="#how-it-works" 
+                            <Link
+                                href="#how-it-works"
                                 className="text-lg font-medium hover:text-[#38bdf8] transition-colors"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     scrollToSection("how-it-works")
                                 }}
-                                >
+                            >
                                 How it Works
                             </Link>
                             <Link href="/faq" className="text-lg font-medium hover:text-[#38bdf8] transition-colors">
                                 FAQ
                             </Link>
-                            <Link 
-                                href="#about-us" 
+                            <Link
+                                href="#about-us"
                                 className="text-lg font-medium hover:text-[#38bdf8] transition-colors"
                                 onClick={(e) => {
                                     e.preventDefault()
                                     scrollToSection("about-us")
                                 }}
-                                >
+                            >
                                 About Us
                             </Link>
-                            <ConnectWalletButton />
                             {isConnected && (
                                 <Link href="/dashboard" className="text-white hover:text-[#38bdf8] transition-colors">
-                                    Dashboard
+                                    <Button className="h-9 text-sm font-medium bg-[#2B9DDA] hover:bg-[#2589c2] rounded-full max-w-[140px] sm:max-w-none">
+                                        Dashboard
+                                    </Button>
                                 </Link>
                             )}
+                            <ConnectWalletButton />
                         </div>
                     </SheetContent>
                 </Sheet>

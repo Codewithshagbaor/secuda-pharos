@@ -67,12 +67,9 @@ export default function Navbar() {
 
   // Monitor transaction states and update UI accordingly
   useEffect(() => {
-    // If we're in step 3 and the transaction is confirmed, show success message
     if (uploadStep === 3 && isConfirmed) {
-      // Success is already handled by the redirect effect
     }
     
-    // If there was an error, go back to step 2 to allow retry
     if (error && uploadStep === 3) {
       setUploadStep(2)
       toast.error(`Transaction failed: ${error.message || "Unknown error"}`)
@@ -88,7 +85,6 @@ export default function Navbar() {
     fileInputRef.current?.click()
   }
 
-  // Helper function to get file name without extension
   const getFileNameWithoutExtension = (fileName: string) => {
     return fileName.replace(/\.[^/.]+$/, "")
   }
@@ -154,7 +150,6 @@ export default function Navbar() {
       return
     }
 
-    // Set the upload type and redirect path
     setUploadType(type)
     setRedirectPath(path)
     
@@ -168,10 +163,8 @@ export default function Navbar() {
         documentName, 
         type  // Use the passed type directly instead of the state
       )
-      console.log(`Upload type is: ${type}`)
-      console.log(`Redirect path is: ${path}`)
+
       
-      // will be monitored by the useEffect hooks
     } catch (err) {
       console.error("Upload error:", err)
       setUploadStep(2) // Go back to form step
@@ -188,7 +181,7 @@ export default function Navbar() {
 
   // Get the current process status for display
   const getProcessStatus = () => {
-    if (isUploading) return "Uploading to IPFS..."
+    if (isUploading) return "Your document is being uploaded..."
     if (isPending) return "Confirm in your wallet..."
     if (isConfirming) return "Transaction confirming..."
     if (isConfirmed) return "Upload complete!"
@@ -199,7 +192,6 @@ export default function Navbar() {
 
   function setSelectedChainId(id: number): void {
     console.log(`Selected chain ID: ${id}`);
-    // You can add additional logic here if needed, such as updating state or context
   }
   return (
     <>

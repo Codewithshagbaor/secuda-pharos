@@ -1,6 +1,5 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Twitter } from "lucide-react"
 
 export default function Footer() {
     return (
@@ -17,12 +16,6 @@ export default function Footer() {
                             Secuda is a secure, decentralized document storage solution that transforms your important files into
                             verifiable NFTs. Enjoy immutable, tamper-proof storage with complete control over your digital assets.
                         </p>
-
-                        <div className="flex space-x-4 pt-2">
-                            <Link href="https://x.com/databank101" className="bg-[#1a2436] p-2 rounded-md hover:bg-[#2a3446] transition-colors">
-                                <Twitter className="h-5 w-5 text-[#38bdf8]" />
-                            </Link>
-                        </div>
                     </div>
 
                     {/* Right Column - Quick Links */}

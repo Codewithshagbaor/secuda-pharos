@@ -2,31 +2,37 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAccount } from "wagmi"; // Assuming you're using wagmi for wallet connection
+import { useAccount } from "wagmi"; 
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const { isConnected } = useAccount();
+  const { isConnected, isReconnecting, isConnecting } = useAccount();
   const router = useRouter();
   const [isPageLoaded, setIsPageLoaded] = useState(false);
 
   useEffect(() => {
-    // Set page loaded to true after the component mounts
     setIsPageLoaded(true);
   }, []);
 
   useEffect(() => {
-    // Check wallet connection only after the page has loaded
-    if (isPageLoaded && !isConnected) {
-      router.push("/");
+    if (
+      isPageLoaded &&
+      !isConnected &&
+      !isReconnecting &&
+      !isConnecting
+    ) {
+      router.replace("/")
     }
-  }, [isPageLoaded, isConnected, router]);
+  }, [isPageLoaded, isConnected, isReconnecting, isConnecting, router]);
 
-  // If wallet is not connected, you can show a loading state or nothing
-  if (!isPageLoaded || !isConnected) {
+  if (!isPageLoaded || isReconnecting) {
+    return null;
+  }
+
+  if (!isConnected) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#020817]">
         <div className="text-white text-center">
@@ -38,6 +44,5 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     );
   }
 
-  // If wallet is connected, render the children
   return <>{children}</>;
 }
