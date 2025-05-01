@@ -22,10 +22,10 @@ export default function ChainSelector({ setSelectedChainId }: {
             <select
                 value={currentChain?.id || ""}
                 onChange={(e) => handleChange(Number(e.target.value))}
-                className="px-4 py-2 rounded bg-gray-200 text-black"
+                className="h-9 text-sm font-medium bg-[#2B9DDA] hover:bg-[#2589c2] rounded-lg focus:outline-none focus:border-transparent text-white px-4 "
             >
                 {CHAINS.map((chain) => (
-                    <option key={chain.id} value={chain.id}>
+                    <option key={chain.id} value={chain.id} className="bg-[#040E24] text-white">
                         {chain.name} {currentChain?.id === chain.id ? "(Current)" : ""}
                     </option>
                 ))}
