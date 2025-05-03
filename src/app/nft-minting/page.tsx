@@ -11,40 +11,36 @@ export default function NFTMintingPage() {
   const mintedNFTs = [
     {
       id: "1",
-      name: "Document_name",
-      date: "March 13, 2025, 12:30 PM",
+      name: "Test doc1",
+      date: "May1, 2025, 10:30 AM",
       size: "2.5MB",
       type: "pdf",
-      tokenId: "#12346",
-      chain: "Ethereum", 
+      chain: "Pharos", 
     },
 
     {
       id: "2",
-      name: "Document_name",
-      date: "March 13, 2025, 12:30 PM",
+      name: "Test doc2",
+      date: "May1, 2025, 11:30 AM",
       size: "2.5MB",
       type: "pdf",
-      tokenId: "#12346",
-      chain: "Ethereum", 
+      chain: "Pharos", 
     },
     {
       id: "3",
-      name: "Document_name",
-      date: "March 13, 2025, 12:30 PM",
+      name: "Test doc3",
+      date: "May, 2025, 12:30 PM",
       size: "2.5MB",
       type: "pdf",
-      tokenId: "#12346",
-      chain: "Ethereum", 
+      chain: "Pharos", 
     },
     {
       id: "4",
-      name: "Document_name",
-      date: "March 13, 2025, 12:30 PM",
+      name: "Test doc4",
+      date: "May 1, 2025, 1:30 PM",
       size: "2.5MB",
       type: "pdf",
-      tokenId: "#12346",
-      chain: "Ethereum",
+      chain: "Pharos",
     },
     
   ]
@@ -99,10 +95,6 @@ export default function NFTMintingPage() {
                     </div>
                     <div className="grid grid-cols-2 gap-2 text-sm">
                     <div>
-                      <p className="text-gray-400 text-xs sm:text-sm">Token ID</p>
-                      <p className="text-white">{nft.tokenId}</p>
-                    </div>
-                    <div>
                       <p className="text-gray-400 text-xs sm:text-sm">Chain</p>
                       <p className="text-white">{nft.chain}</p>
                     </div>
@@ -142,20 +134,18 @@ export default function NFTMintingPage() {
               Showing <span className="text-white">1-{mintedNFTs.length}</span> of{" "}
               <span className="text-white">{mintedNFTs.length}</span> NFTs
             </div>
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 text-white">
               <Button
                 variant="outline"
-                className="h-8 w-8 p-0 flex items-center justify-center border-[#3A4358] rounded-md"
-                disabled
+                className="h-8 w-8 flex items-center justify-center border-[#3A4358] rounded-md"
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-4 w-4 text-white" />
               </Button>
               <Button
                 variant="outline"
-                className="h-8 w-8 p-0 flex items-center justify-center border-[#3A4358] rounded-md"
-                disabled
+                className="h-8 w-8 flex items-center justify-center border-[#3A4358] rounded-md text-white"
               >
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-5 w-5 text-white" />
               </Button>
             </div>
           </div>

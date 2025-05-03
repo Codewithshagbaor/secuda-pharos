@@ -13,11 +13,6 @@ import { useAccount } from "wagmi";
 export default function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
     const { isConnected } = useAccount();
-    // const [mounted, setMounted] = useState(false);
-
-    // useEffect(() => {
-    //     setMounted(true);
-    // }, []);
 
     useEffect(() => {
         const handleScroll = () => {

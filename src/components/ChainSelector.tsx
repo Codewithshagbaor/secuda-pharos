@@ -18,11 +18,11 @@ export default function ChainSelector({ setSelectedChainId }: {
     };
 
     return (
-        <div className="relative">
+        <div className="relative ">
             <select
                 value={currentChain?.id || ""}
                 onChange={(e) => handleChange(Number(e.target.value))}
-                className="h-9 text-sm font-medium bg-[#2B9DDA] hover:bg-[#2589c2] rounded-lg focus:outline-none focus:border-transparent text-white px-4 "
+                className="hidden md:block h-9 text-xs md:text-sm font-medium bg-[#2B9DDA] hover:bg-[#2589c2] rounded-lg focus:outline-none focus:border-transparent text-white md:px-4 "
             >
                 {CHAINS.map((chain) => (
                     <option key={chain.id} value={chain.id} className="bg-[#040E24] text-white">
