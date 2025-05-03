@@ -9,6 +9,7 @@ export const config = createConfig(
       chains: [pharosdevnet, educhain],
       transports: {
         [pharosdevnet.id]: http(pharosdevnet.rpcUrls.default.http[0]),
+        [pharosdevnet.id]: webSocket("wss://devnet.dplabs-internal.com"),
         [educhain.id]: http(educhain.rpcUrls.default.http[0]),
         [educhain.id]: webSocket("wss://open-campus-codex-sepolia.drpc.org"),
       },
