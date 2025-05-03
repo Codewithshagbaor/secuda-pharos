@@ -21,14 +21,14 @@ export default function Navbar() {
 
 
   // Import the document upload hook with all needed properties
-  const { 
-    uploadToIpfs, 
-    isPending, 
+  const {
+    uploadToIpfs,
+    isPending,
     isConfirming,
     isConfirmed,
     IsStored,
     isUploading,
-    error 
+    error
   } = useDocumentUpload()
 
   interface SelectedFile {
@@ -69,7 +69,7 @@ export default function Navbar() {
   useEffect(() => {
     if (uploadStep === 3 && isConfirmed) {
     }
-    
+
     if (error && uploadStep === 3) {
       setUploadStep(2)
       toast.error(`Transaction failed: ${error.message || "Unknown error"}`)
@@ -152,19 +152,19 @@ export default function Navbar() {
 
     setUploadType(type)
     setRedirectPath(path)
-    
+
     // Move to the uploading state
     setUploadStep(3)
 
     try {
       // Call the uploadToIpfs function with the specified type
       uploadToIpfs(
-        selectedFile.file, 
-        documentName, 
+        selectedFile.file,
+        documentName,
         type  // Use the passed type directly instead of the state
       )
 
-      
+
     } catch (err) {
       console.error("Upload error:", err)
       setUploadStep(2) // Go back to form step
@@ -185,8 +185,8 @@ export default function Navbar() {
     if (isPending) return "Confirm in your wallet..."
     if (isConfirming) return "Transaction confirming..."
     if (isConfirmed) return "Upload complete!"
-    return uploadType === "mint" 
-      ? "Minting your document" 
+    return uploadType === "mint"
+      ? "Minting your document"
       : "Uploading your document"
   }
 
@@ -214,22 +214,22 @@ export default function Navbar() {
         <div className="flex justify-start items-center gap-2 sm:gap-3">
           <Button
             variant="outline"
-            className="h-9 text-sm font-medium border-[#3A4358] hover:bg-[#0c1a36] hidden sm:flex rounded-full"
+            className="h-9 text-sm font-medium border-[#3A4358] hover:bg-[#0c1a36] hidden md:flex rounded-full"
             onClick={handleUploadClick}
           >
             <Upload className="mr-2 h-4 w-4" />
             Upload Document
           </Button>
           {/* Mobile upload button */}
-          <Button
+          {/* <Button
             variant="outline"
             className="h-9 w-9 p-0 flex items-center justify-center sm:hidden border-[#3A4358] hover:bg-[#0c1a36] rounded-full"
             onClick={handleUploadClick}
           >
             <Upload className="h-4 w-4" />
             <span className="sr-only">Upload Document</span>
-          </Button>
-          <ChainSelector setSelectedChainId={setSelectedChainId} />
+          </Button> */}
+          {isDocumentsPage ? "" : <ChainSelector setSelectedChainId={setSelectedChainId} />}
           <ConnectWalletButton />
         </div>
       </header>
@@ -241,7 +241,6 @@ export default function Navbar() {
               onClick={closeUploadDialog}
               className="absolute top-4 right-4 text-gray-400 hover:text-white p-1 rounded-full hover:bg-[#1e2d47] transition-colors"
               aria-label="Close"
-              disabled={uploadStep === 3 && !isConfirmed}
             >
               <X className="h-5 w-5" />
             </button>
@@ -315,7 +314,7 @@ export default function Navbar() {
                       />
                     </div>
                   </div>
-                  
+
                   {/* Selected file details */}
                   <div className="bg-[#0a1830] p-4 rounded-lg flex items-center">
                     <div className="text-[#2B9DDA] mr-3">
@@ -343,22 +342,20 @@ export default function Navbar() {
                     <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-center">
                       <button
                         type="button"
-                        className={`rounded-full px-6 py-2 ${
-                          uploadType === "upload"
+                        className={`rounded-full px-6 py-2 ${uploadType === "upload"
                             ? "bg-[#2B9DDA] text-white"
                             : "bg-[#0C2A49] text-white border border-[#3A4358]"
-                        }`}
+                          }`}
                         onClick={() => handleUploadSubmit("upload", "/documents")}
                       >
                         Upload only
                       </button>
                       <button
                         type="button"
-                        className={`rounded-full px-6 py-2 ${
-                          uploadType === "mint"
+                        className={`rounded-full px-6 py-2 ${uploadType === "mint"
                             ? "bg-[#2B9DDA] text-white"
                             : "bg-[#0C2A49] text-white border border-[#3A4358]"
-                        }`}
+                          }`}
                         onClick={() => handleUploadSubmit("mint", "/nft-minting")}
                       >
                         Upload and mint as NFT

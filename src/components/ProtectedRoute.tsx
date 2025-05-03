@@ -20,9 +20,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   useEffect(() => {
     if (
       isPageLoaded &&
-      !isConnected &&
-      !isReconnecting &&
-      !isConnecting
+      !isConnected 
     ) {
       router.replace("/")
     }
