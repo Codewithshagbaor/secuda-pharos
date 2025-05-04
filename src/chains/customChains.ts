@@ -9,7 +9,7 @@ export const pharosdevnet: Chain = {
     symbol: "PTT",
   },
   rpcUrls: {
-    default: { http: ['/api/pharos'] },
+    default: { http: ["https://devnet.dplabs-internal.com/"] },
   },
   blockExplorers: {
     default: { name: "PharosDevnet", url: "https://pharosscan.xyz/" },
