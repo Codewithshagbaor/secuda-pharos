@@ -166,9 +166,7 @@ export function useDocumentUpload() {
           args: [documentHash, documentURI, documentName, documentType, documentSize]
         })
 
-        // Wait for transaction confirmation
-        if (isConfirmed) {
-          await storeDocument(address, documentHash, documentURI, documentName, documentType, documentSize, "MINTED")
+        await storeDocument(address, documentHash, documentURI, documentName, documentType, documentSize, "MINTED")
         toast.success(`Document minted on chain ID: ${selectedChainId}`);
 
         }
