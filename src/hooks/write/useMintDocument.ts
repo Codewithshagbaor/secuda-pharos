@@ -164,13 +164,11 @@ export function useDocumentUpload() {
           address: contractAddress as `0x${string}`,
           functionName: 'storeDocument',
           args: [documentHash, documentURI, documentName, documentType, documentSize]
-        });
+        })
 
-        await storeDocument(address, documentHash, documentURI, documentName, documentType, documentSize, "MINTED");
+        await storeDocument(address, documentHash, documentURI, documentName, documentType, documentSize, "MINTED")
         toast.success(`Document minted on chain ID: ${selectedChainId}`);
 
-        }
-        
         return true
       } catch (mintDocumentError) {
         toast.error(String(mintDocumentError))
